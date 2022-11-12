@@ -1,5 +1,6 @@
 
-// stole from https://github.com/seanny1986/particlePhysics
+// stole from https://github.com/seanny1986/particlePhysics 
+// (https://seanny1986.wordpress.com/2017/10/01/simulation-of-elastic-collisions-in-python/)
 // and https://bl.ocks.org/tophtucker/16fbd7e7c6274ed329111cbe139a6bb6#index.html
 class dvds {
     constructor() {
@@ -229,8 +230,8 @@ function draw() {
     translate(0, height); 
     // origin at lower left corner
     scale(1,-1);
-    background(1);
-    noStroke();
+    // background(1);
+    // noStroke();
 
     allDVDs.update();
 }
