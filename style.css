@@ -1,7 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;1,100;1,400;1,700&display=swap');
+
 html, body {
   margin: 0;
+  font-size: 20px;
   padding: 0;
+  color: #a7a7a7;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
+
+h1, h2, h3, h4, p, li{
+  margin: 0;
+}
+
+#big-info-div {
+  position: absolute;
+  right: 1.5em;
+  top: 1.5em;
+  display: flex;
+  z-index: 3;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+
+/* info */
+#info-icon {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 50px;
+  text-align: right;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 0.5em;
+  width: fit-content;
+  /* position: absolute; */
+  z-index: 1000;
+  line-height: 50px;
+}
+
+#info-icon:hover{
+  color:#e7e7e7;
+}
+
+#info-div {
+  font-size: .7rem;
+  border-radius: 1em;
+  width: 105%;
+  padding: 1.5em 1.5em;
+  display: none;
+  background-color: rgba(255, 255, 255, 0.619);
+  color: black;
+}
+
+#small-div{
+  display: block;
+  margin: auto;
+}
+
+small{
+  font-size: .7em;
+  text-align: center;
+  margin: 0 auto;
+  display: inline;
+}
+
+#info-flex{
+  display: flex;
+  justify-content: space-around;
+}
+
+h2{
+  margin-block-end: 1em;
+  font-weight: 200;
+  font-size: 1.2em;
+  text-align: center;
+}
+h4{
+  font-size: large;
+  font-weight: 400;
+  text-align: center;
+}
+
+ul {
+  font-size: .7rem;
+  list-style: none; 
+  margin-bottom: 1em;
+  padding-left: 0;
+}
+
+li{
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+ul li div{
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 15%;
+  display: flex;
+}
+
+ul li div div{
+  margin: auto;
+}
+
+.blue{
+  background-color: rgb(66, 135, 245); 
+}
+
+.yellow{
+  background-color: rgb(247, 213, 59); 
+}
+
+.pink{
+  background-color: rgb(242, 58, 138); 
+}
+
+.green{
+  background-color: rgb(66, 245, 114); 
+}
+
+.humidity{
+  border: 1.5px solid rgba(255, 255, 255, 0.619); 
+  border-radius: 50%;
+}
+
+.large{
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.med{
+  width: .7rem;
+  height: .7rem;
+}
+
+.small{
+  width: .4rem;
+  height: .4rem;
+}
+
+.smallest{
+  width: .1rem;
+  height: .1rem;
+}
+
+/* p5js */
 canvas {
   display: block;
 }
+
+main{
+  position: absolute;
+}
+
+/* leaflet */
+.leaflet{
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  font-size: 12px;
+}
+
+#leaflet{
+  z-index: -1;
+}
+
+#invisibleMap{
+  z-index: 1;
+  cursor: pointer;
+}
+
+.leaflet-container{
+  background: none;
+}
+
+/* map attributions div */
+.leaflet-container .leaflet-control-attribution {
+  background-color: #090909;
+}
+
+.leaflet-control-attribution, .leaflet-control-scale-line{
+  color: #a7a7a7;
+}
+

@@ -2,21 +2,72 @@
 <html lang="en">
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.min.js"></script> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+    integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+    integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+    crossorigin=""></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8" />
-
+    <title>
+      DVD loading screen but it's weather
+    </title>
   </head>
   <body>
+    <base target="_blank">
+    <div id="big-info-div">
+      <p class="info" id="info-icon">
+        &#9432;
+      </p>
+      <div class="info" id="info-div">
+        <h2>DVD Loading Screen But It&#8217;s Weather</h2>
+        <div id="info-flex">
+          <div>
+            <h4>Temperature</h4>
+            <ul>
+                <li><div class = "temp blue"></div>below freezing</li>
+                <li><div class = "temp yellow"></div>32 °F — 50 °F</li>
+                <li><div class = "temp green"></div>50 °F — 70 °F</li>
+                <li><div class = "temp pink"></div>over 70 °F</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Humidity</h4>
+            <ul>
+                <li>
+                  <div>
+                    <div class = "humidity smallest"></div>
+                  </div>
+                0% — 60%</li>
+                <li>
+                  <div>
+                    <div class = "humidity small"></div>
+                  </div>
+                60% — 70%</li>
+                <li>
+                  <div>
+                    <div class = "humidity med"></div>
+                  </div>
+                  70% — 90%</li>
+                <li><div class = "humidity large"></div>90% — 100%</li>
+            </ul>
+          </div>
+        </div>
+        <br>
+          <small>
+            This site was designed by Sylvie Lee for Conditional Design Fall 2022
+          </small>
+      </div>
+    </div>
     <main>
     </main>
-<!--         
-    <p>
-      Location:<input id="city" value="St Louis" ></input>
-    </p>
     
-    <button id="submit" value="Submit">Submit</button> -->
+    <div class="leaflet" id="leaflet"></div>
+    <div class="leaflet" id="invisibleMap"></div>
+    <script src="button styling.js"></script> 
+    <script src="map.js"></script> 
     <script src="dvd bounce.js"></script>
-    <!-- <script src="sketch.js"></script> -->
+    <script src="sketch.js"></script>
   </body>
 </html>

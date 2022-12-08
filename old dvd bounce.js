@@ -1,15 +1,14 @@
 
+let touching = [[0,0]];
 // stole from https://github.com/seanny1986/particlePhysics 
 // (https://seanny1986.wordpress.com/2017/10/01/simulation-of-elastic-collisions-in-python/)
 // and https://bl.ocks.org/tophtucker/16fbd7e7c6274ed329111cbe139a6bb6#index.html
-let touching = [[0,0]];
 class dvds {
     constructor() {
         this.dvdArray = [];
-        this.pinsArray = [];
     }
 
-    // update each dvd in the array
+    // update each point in the array
     update() {
         // for each dvd in dvd array
         for(let i in this.dvdArray) {
@@ -28,11 +27,12 @@ class dvds {
                         if(distance < touchDist) {
                             let overlap = touchDist - distance;
                             let scaleFactor = overlap / distance;
-                            this.dvdArray[i].x -= ((this.dvdArray[j].x - this.dvdArray[i].x) * scaleFactor) / 2;
-                            this.dvdArray[i].y -= ((this.dvdArray[j].y - this.dvdArray[i].y) * scaleFactor) / 2;
-                            distance = dist(this.dvdArray[j].x, this.dvdArray[j].y, this.dvdArray[i].x, this.dvdArray[i].y);
+                            this.dvdArray[i].x -= (this.dvdArray[j].x - this.dvdArray[i].x) * scaleFactor / 2;
+                            this.dvdArray[i].y -= (this.dvdArray[j].y - this.dvdArray[i].y) * scaleFactor / 2;
                             if(j == touching[touching.length - 1][0] && i == touching[touching.length - 1][1]) {
-                                console.log(touching[touching.length - 1]);
+                                console.log(this.dvdArray[i].xVelocity + ", " + this.dvdArray[i].yVelocity);
+                                console.log(this.dvdArray[j].xVelocity + ", " + this.dvdArray[j].yVelocity);
+                                debugger;
                             }
                             touching.push([j, i]);
                         }
@@ -40,61 +40,11 @@ class dvds {
                     }
                 }
             }
+            push();
+            fill(this.dvdArray[i].fill);
+            ellipse(this.dvdArray[i].x, this.dvdArray[i].y, this.dvdArray[i].diameter, this.dvdArray[i].diameter);
+            pop();
         }
-        this.display();
-    }
-    // display the dvds on the page
-    display() {
-        let pinned = false;
-        for(let i in this.pinsArray) {
-            if(dist(this.pinsArray[i].x, this.pinsArray[i].y, mouseX, fixY(mouseY)) <= 15 && dist(this.pinsArray[i].x, this.pinsArray[i].y, this.dvdArray[i].x, this.dvdArray[i].y) > this.dvdArray[i].radius + 15/2) {
-                pinned = true;
-            } else{
-                // display pin
-                push();
-                    fill(252, 186, 3);
-                    ellipse(this.pinsArray[i].x, this.pinsArray[i].y, 15, 15);
-                pop();
-            }
-        }
-
-        for(let i in this.dvdArray) {
-            if(pinned) {
-                // display line between pin and dvd
-                if(dist(this.pinsArray[i].x, this.pinsArray[i].y, mouseX, fixY(mouseY)) <= 15 && dist(this.pinsArray[i].x, this.pinsArray[i].y, this.dvdArray[i].x, this.dvdArray[i].y) > this.dvdArray[i].radius + 15/2) {
-                    push();
-                        stroke(255);
-                        strokeWeight(5);
-                        line(this.pinsArray[i].x, this.pinsArray[i].y, this.dvdArray[i].x, this.dvdArray[i].y);
-                    pop();
-                    // display pin
-                    push();
-                        fill(252, 186, 3);
-                        ellipse(this.pinsArray[i].x, this.pinsArray[i].y, 15, 15);
-                    pop();
-                    // display pinned dvd
-                    push();
-                        fill(this.dvdArray[i].setOpacity(255));
-                        ellipse(this.dvdArray[i].x, this.dvdArray[i].y, this.dvdArray[i].diameter, this.dvdArray[i].diameter);
-                    pop();
-                } else {
-                    // display all other dvds
-                    push();
-                        fill(this.dvdArray[i].setOpacity(90));
-                        ellipse(this.dvdArray[i].x, this.dvdArray[i].y, this.dvdArray[i].diameter, this.dvdArray[i].diameter);
-                    pop();
-                }
-                
-            } else{
-                // display all dvds
-                push();
-                    fill(this.dvdArray[i].fill);
-                    ellipse(this.dvdArray[i].x, this.dvdArray[i].y, this.dvdArray[i].diameter, this.dvdArray[i].diameter);
-                pop();
-            }
-            
-        }
-        pinned = false;
     }
 
     // when dvd bounces against wall
@@ -201,38 +151,18 @@ class dvds {
         dvd2.yVelocity = v2y_new;
     }
 
-    addAll(aDvd, aPin) {
-        this.addDVD(aDvd);
-        this.addPin(aPin);
-    }
-
     // add a new dvd to the dvd array
     addDVD(aDvd) {
         this.dvdArray.push(aDvd);
     }
-
-    // add a new pin to the pin array
-    addPin(aPin) {
-        this.pinsArray.push(aPin);
-    }
 }
 
 class dvd {
-    constructor(x, y, humidity, angle, velocity, temp) {
+    constructor(x, y, diameter, angle, velocity, fill) {
         this.x = x;
         this.y = y;
-        this.temp = temp;
-        this.getColor(temp);
-        this.getDiameter(humidity);
-        this.radius = this.diameter / 2;
-
+        this.fill = fill;
         this.angle = angle;
-        this.velocity = velocity;
-        this.mass = 300;
-
-        // isolate the velocity in the x and y directions
-        this.xVelocity = velocity * Math.cos(angle * Math.PI / 180);
-        this.yVelocity = velocity * Math.sin(angle * Math.PI / 180);
         // if(180 < this.angle <= 360) {
         //     //   |
         //     //  \|/
@@ -251,6 +181,14 @@ class dvd {
         //     this.rightHit = false;
         // }
 
+        this.diameter = diameter;
+        this.radius = this.diameter / 2;
+        this.velocity = velocity;
+        this.mass = 300;
+
+        // isolate the velocity in the x and y directions
+        this.xVelocity = velocity * Math.cos(angle * Math.PI / 180);
+        this.yVelocity = velocity * Math.sin(angle * Math.PI / 180);
     }
 
     // new x and y coordinate from d = v*t
@@ -267,69 +205,40 @@ class dvd {
         this.x += xPositionVelocity;
         this.y += yPositionVelocity;
     }
-
-    getColor(temp) {
-        if(temp < 32) {
-            // bluee
-            this.fill = color(66, 135, 245, 230);
-            return;
-        } 
-        if(temp < 50) {
-            // yellow
-            this.fill = color(247, 213, 59, 230);
-            return;
-        } 
-        if(temp < 70) {
-            // green
-            this.fill = color(66, 245, 114, 230);
-            return;
-        } 
-        // pink
-        this.fill = color(242, 58, 138, 230);
-        return;
-    }
-
-    setOpacity(opacity) {
-        let temp = this.temp;
-        if(temp < 32) {
-            // bluee
-            return color(66, 135, 245, opacity);
-        } 
-        if(temp < 50) {
-            // yellow
-            return color(247, 213, 59, opacity);
-        } 
-        if(temp < 70) {
-            // green
-            return color(66, 245, 114, opacity);
-        } 
-        // pink
-        return color(242, 58, 138, opacity);
-    }
-
-    getDiameter(humidity) {
-        if(humidity < 60) {
-            this.diameter = 70;
-            return;
-        } 
-        if(humidity < 70) {
-            this.diameter = 100;
-            return;
-        } 
-        if(humidity < 90) {
-            this.diameter = 150;
-            return;
-        } 
-        this.diameter = 200;
-        return;
-    }
-}
-
-class pin {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
 }
 
 let allDVDs = new dvds;
+
+function setup() {
+    createCanvas(window.innerWidth, window.innerHeight);
+    frameRate(30);
+    background(1);
+    let dvd1 = new dvd(90, 90, 100, 30, 2, color(255,3,20));
+    allDVDs.addDVD(dvd1);
+    dvd1 = new dvd(90, 300, 100, 300, 2, color(0,3,255));
+    allDVDs.addDVD(dvd1);
+}
+
+// resize canvas and reset reference points when window is resized
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    background(1);
+}
+
+function mouseClicked() {
+    let newY = (mouseY)-height;
+    let newX = mouseX;
+    dvd2 = new dvd(newX, -newY, Math.random() * 200 + 20, Math.random() * 360, Math.random() * 20 + 1, color(90,20,50));
+    allDVDs.addDVD(dvd2);
+}
+
+function draw() {
+    // rectMode(CENTER);
+    translate(0, height); 
+    // origin at lower left corner
+    scale(1,-1);
+    // background(1);
+    // noStroke();
+
+    allDVDs.update();
+}
