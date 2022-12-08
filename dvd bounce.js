@@ -3,6 +3,9 @@
 // (https://seanny1986.wordpress.com/2017/10/01/simulation-of-elastic-collisions-in-python/)
 // and https://bl.ocks.org/tophtucker/16fbd7e7c6274ed329111cbe139a6bb6#index.html
 let touching = [[0,0]];
+
+// this class puts it all together
+// drawing the pins and dvds on the screen and updating dvd positions at every frame
 class dvds {
     constructor() {
         this.dvdArray = [];
@@ -107,12 +110,10 @@ class dvds {
                 let overlap = dvd.y - (height - dvd.radius);
                 dvd.y -= overlap;
             }
-            // dvd.topHit = true;
             dvd.yVelocity = -dvd.yVelocity;
         }
         // bottom of screen
         if(dvd.y <= dvd.radius) {
-            // dvd.topHit = false;
             // if dvd is over the edge of the screen, move it so that it is touching but not overlapped with the edge
             if(dvd.y < dvd.radius) {
                 let overlap = dvd.radius - dvd.y;
@@ -129,12 +130,10 @@ class dvds {
                 dvd.x -= overlap;
             }
             dvd.xVelocity = -dvd.xVelocity;
-            // dvd.rightHit = true;
         }
 
         // left of screen
         if(dvd.x <= dvd.radius) {
-            // dvd.rightHit = false;
             // if dvd is over the edge of the screen, move it so that it is touching but not overlapped with the edge
             if(dvd.x < dvd.radius) {
                 let overlap = dvd.radius - dvd.x;
@@ -217,6 +216,7 @@ class dvds {
     }
 }
 
+// bouncing dvd objects
 class dvd {
     constructor(x, y, humidity, angle, velocity, temp) {
         this.x = x;
@@ -227,7 +227,7 @@ class dvd {
         this.radius = this.diameter / 2;
 
         this.angle = angle;
-        this.velocity = velocity;
+        this.velocity = velocity/3;
         this.mass = 300;
 
         // isolate the velocity in the x and y directions
@@ -325,6 +325,7 @@ class dvd {
     }
 }
 
+// pin for the location
 class pin {
     constructor(x, y) {
         this.x = x;
