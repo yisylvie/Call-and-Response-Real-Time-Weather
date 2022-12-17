@@ -47,7 +47,7 @@ function fetchWeather(url, newX, newY){
       method: "GET"
     })
     .then(res => res.json())
-    .then(data => {jsonData = data; createWeather()})
+    .then(data => {jsonData = data; console.log(data.coord.lat); createWeather()})
     .catch(error => console.error('Error:',error))
 
     function createWeather() {

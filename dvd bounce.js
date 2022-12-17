@@ -34,9 +34,6 @@ class dvds {
                             this.dvdArray[i].x -= ((this.dvdArray[j].x - this.dvdArray[i].x) * scaleFactor) / 2;
                             this.dvdArray[i].y -= ((this.dvdArray[j].y - this.dvdArray[i].y) * scaleFactor) / 2;
                             distance = dist(this.dvdArray[j].x, this.dvdArray[j].y, this.dvdArray[i].x, this.dvdArray[i].y);
-                            if(j == touching[touching.length - 1][0] && i == touching[touching.length - 1][1]) {
-                                console.log(touching[touching.length - 1]);
-                            }
                             touching.push([j, i]);
                         }
                         this.elasticCollision(this.dvdArray[i], this.dvdArray[j]);
