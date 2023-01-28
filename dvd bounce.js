@@ -2,7 +2,7 @@
 // stole from https://github.com/seanny1986/particlePhysics 
 // (https://seanny1986.wordpress.com/2017/10/01/simulation-of-elastic-collisions-in-python/)
 // and https://bl.ocks.org/tophtucker/16fbd7e7c6274ed329111cbe139a6bb6#index.html
-let touching = [[0,0]];
+// let touching = [[0,0]];
 
 // this class puts it all together
 // drawing the pins and dvds on the screen and updating dvd positions at every frame
@@ -34,9 +34,13 @@ class dvds {
                             this.dvdArray[i].x -= ((this.dvdArray[j].x - this.dvdArray[i].x) * scaleFactor) / 2;
                             this.dvdArray[i].y -= ((this.dvdArray[j].y - this.dvdArray[i].y) * scaleFactor) / 2;
                             distance = dist(this.dvdArray[j].x, this.dvdArray[j].y, this.dvdArray[i].x, this.dvdArray[i].y);
-                            touching.push([j, i]);
                         }
-                        this.elasticCollision(this.dvdArray[i], this.dvdArray[j]);
+                        // if these dvds did not just collide
+                        if((this.dvdArray[i].hitDvd != j) || (this.dvdArray[i].hitDvd == undefined || this.dvdArray[j].hitDvd == undefined)) {
+                            this.dvdArray[i].setHitDvd(j);
+                            this.dvdArray[j].setHitDvd(i);
+                            this.elasticCollision(this.dvdArray[i], this.dvdArray[j]);
+                        }
                     }
                 }
             }
@@ -108,6 +112,7 @@ class dvds {
                 dvd.y -= overlap;
             }
             dvd.yVelocity = -dvd.yVelocity;
+            dvd.setHitDvd(undefined);
         }
         // bottom of screen
         if(dvd.y <= dvd.radius) {
@@ -117,6 +122,7 @@ class dvds {
                 dvd.y += overlap;
             }
             dvd.yVelocity = -dvd.yVelocity;
+            dvd.setHitDvd(undefined);
         }
 
         // right of screen
@@ -127,6 +133,7 @@ class dvds {
                 dvd.x -= overlap;
             }
             dvd.xVelocity = -dvd.xVelocity;
+            dvd.setHitDvd(undefined);
         }
 
         // left of screen
@@ -137,6 +144,7 @@ class dvds {
                 dvd.x += overlap;
             }
             dvd.xVelocity = -dvd.xVelocity;
+            dvd.setHitDvd(undefined);
         }
     }
 
@@ -319,6 +327,10 @@ class dvd {
         } 
         this.diameter = 200;
         return;
+    }
+
+    setHitDvd(dvd) {
+        this.hitDvd = dvd;
     }
 }
 
